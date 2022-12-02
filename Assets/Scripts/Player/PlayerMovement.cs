@@ -51,10 +51,10 @@ namespace Player
             bonusNumber--;
             ComputeSpeed();
         }
-        
-        private void Update()
+
+        public void UpdateInputVector(Vector2 inputVector)
         {
-            _inputVector = _gameInputController.Player.Move.ReadValue<Vector2>();
+            _inputVector = inputVector;
         }
 
         public void FixedUpdate()
@@ -79,23 +79,23 @@ namespace Player
             ComputeSpeed();
         }
 
-        private void OnGUI()
-        {
-            if (GUI.Button(new Rect(new Vector2(10, 80), new Vector2(120, 25)), "Add Bonus"))
-            {
-                AddSpeedBonus();
-            }
-            
-            if (GUI.Button(new Rect(new Vector2(140, 80), new Vector2(120, 25)), "Remove Bonus"))
-            {
-                RemoveSpeedBonus();
-            }
-            
-            if (GUI.Button(new Rect(new Vector2(270, 80), new Vector2(120, 25)), "Set Max Bonus"))
-            {
-                bonusNumber = maxBonusNumber;
-                ComputeSpeed();
-            }
-        }
+        // private void OnGUI()
+        // {
+        //     if (GUI.Button(new Rect(new Vector2(10, 80), new Vector2(120, 25)), "Add Bonus"))
+        //     {
+        //         AddSpeedBonus();
+        //     }
+        //     
+        //     if (GUI.Button(new Rect(new Vector2(140, 80), new Vector2(120, 25)), "Remove Bonus"))
+        //     {
+        //         RemoveSpeedBonus();
+        //     }
+        //     
+        //     if (GUI.Button(new Rect(new Vector2(270, 80), new Vector2(120, 25)), "Set Max Bonus"))
+        //     {
+        //         bonusNumber = maxBonusNumber;
+        //         ComputeSpeed();
+        //     }
+        // }
     }
 }

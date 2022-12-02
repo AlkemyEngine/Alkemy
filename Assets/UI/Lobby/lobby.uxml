@@ -1,0 +1,38 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="lobby_slot" src="project://database/Assets/UI/Lobby/lobby_slot.uxml?fileID=9197481963319205126&amp;guid=7ff0a19797013b116a9abd9dc9d874ed&amp;type=3#lobby_slot" />
+    <ui:Template name="player_selector" src="project://database/Assets/UI/Lobby/player_selector.uxml?fileID=9197481963319205126&amp;guid=b280a8f199a1552078b44f70b0a84c25&amp;type=3#player_selector" />
+    <ui:GroupBox name="LobbyPanel" style="flex-basis: auto; overflow: hidden; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; position: absolute; left: 10px; top: 10px; right: 10px; bottom: 10px;">
+        <ui:GroupBox name="FirstLine" style="flex-direction: row; flex-shrink: 1; flex-grow: 1; flex-basis: 50%;">
+            <ui:Instance template="lobby_slot" name="lobby_slot_1" style="flex-basis: 25%; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; flex-direction: column; visibility: visible; display: flex; background-color: rgba(44, 45, 51, 0.33);">
+                <ui:Instance template="player_selector" name="player_selector_1" style="left: 0; top: 0; flex-basis: auto; position: absolute; right: 0; bottom: 0; display: none;" />
+            </ui:Instance>
+            <ui:Instance template="lobby_slot" name="lobby_slot_2" style="flex-basis: 25%; flex-grow: 0; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; background-color: rgba(44, 45, 51, 0.33);">
+                <ui:Instance template="player_selector" name="player_selector_2" style="left: 0; top: 0; position: absolute; right: 0; bottom: 0; display: none;" />
+            </ui:Instance>
+            <ui:Instance template="lobby_slot" name="lobby_slot_3" style="flex-basis: 25%; flex-grow: 0; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; background-color: rgba(44, 45, 51, 0.33);">
+                <ui:Instance template="player_selector" name="player_selector_3" style="left: 0; top: 0; position: absolute; right: 0; bottom: 0; display: none;" />
+            </ui:Instance>
+            <ui:Instance template="lobby_slot" name="lobby_slot_4" style="flex-basis: 25%; flex-grow: 0; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; background-color: rgba(44, 45, 51, 0.33);">
+                <ui:Instance template="player_selector" name="player_selector_4" style="left: 0; top: 0; flex-basis: auto; position: absolute; right: 0; bottom: 0; display: none;" />
+            </ui:Instance>
+        </ui:GroupBox>
+        <ui:GroupBox name="SecondLine" style="flex-basis: 50%; flex-direction: row; flex-shrink: 1; flex-grow: 1; display: flex;">
+            <ui:Instance template="lobby_slot" name="lobby_slot_5" style="flex-basis: 25%; flex-grow: 0; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; background-color: rgba(44, 45, 51, 0.33);">
+                <ui:Instance template="player_selector" name="player_selector_5" style="left: 0; top: 0; flex-basis: auto; position: absolute; right: 0; bottom: 0; display: none;" />
+            </ui:Instance>
+            <ui:Instance template="lobby_slot" name="lobby_slot_6" style="flex-basis: 25%; flex-grow: 0; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; background-color: rgba(44, 45, 51, 0.33); display: flex;">
+                <ui:Instance template="player_selector" name="player_selector_6" style="left: 0; top: 0; flex-basis: auto; position: absolute; right: 0; bottom: 0; display: none;" />
+            </ui:Instance>
+            <ui:Instance template="lobby_slot" name="lobby_slot_7" style="flex-basis: 25%; flex-grow: 0; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; background-color: rgba(44, 45, 51, 0.33); display: flex;">
+                <ui:Instance template="player_selector" name="player_selector_7" style="left: 0; top: 0; flex-basis: auto; position: absolute; right: 0; bottom: 0; display: none;" />
+            </ui:Instance>
+            <ui:Instance template="lobby_slot" name="lobby_slot_8" style="flex-basis: 25%; flex-grow: 0; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; background-color: rgba(44, 45, 51, 0.33); display: flex;">
+                <ui:Instance template="player_selector" name="player_selector_8" style="left: 0; top: 0; flex-basis: auto; position: absolute; right: 0; bottom: 0; display: none;" />
+            </ui:Instance>
+        </ui:GroupBox>
+        <ui:GroupBox style="flex-basis: 150px;">
+            <ui:Button text="Start" display-tooltip-when-elided="true" name="StartButton" style="width: 300px; height: 75px; left: 50%; top: 50%; translate: -50% -50%; font-size: 18px; -unity-font-style: bold; position: absolute; background-color: rgb(120, 183, 84);" />
+            <ui:Button text="↵" display-tooltip-when-elided="true" name="ReturnButton" style="width: 75px; height: 75px; left: 10px; top: 50%; translate: 0 -50%; font-size: 28px; -unity-font-style: bold; position: absolute; background-color: rgb(202, 0, 0);" />
+        </ui:GroupBox>
+    </ui:GroupBox>
+</ui:UXML>

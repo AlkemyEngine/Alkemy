@@ -2,8 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Character;
+using Lobby;
+using Player;
 using Terrain;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Utils;
 
 namespace Game
 {
@@ -12,9 +16,7 @@ namespace Game
     {
         public static PlayerManager Instance { get; private set; }
 
-        [SerializeField] private GameManager _gameManager;
-        
-        [SerializeField] private GameObject[] playerPrefabs;
+        [SerializeField] private GameManager gameManager;
         [SerializeField] private GameObject[] playerSpawns;
 
         private List<GameObject> _instantiatedPlayer;
@@ -44,13 +46,29 @@ namespace Game
         
         private void DoSpawnPlayers()
         {
+            SelectableCharacterRegister selectableCharacterRegister = SelectableCharacterRegister.Instance;
+            List<PlayerConfiguration> playerConfigurations = PlayerConfigurationManager.Instance.PlayerConfigurations;
             
-            for (int i = 0; i < playerPrefabs.Length; i++)
+            Debug.Log("playerConfigurations.Count: " + playerConfigurations.Count);
+            
+            for (int i = 0; i < playerConfigurations.Count; i++)
             {
-                GameObject newPlayer = Instantiate(playerPrefabs[i], playerSpawns[i].transform.position,
-                    Quaternion.identity);
-                newPlayer.GetComponent<EntityHealth>().OnDeath += OnPlayerDeath;
-                _instantiatedPlayer.Add(newPlayer);
+                PlayerConfiguration playerConfiguration = playerConfigurations[i];
+                GameObject playerConfigurationGameObject = playerConfiguration.Input.gameObject;
+                
+                GameObject characterPrefab = selectableCharacterRegister[playerConfigurations[i].CharacterIndex].prefab;
+                int spawnIndex = i % playerSpawns.Length;
+                GameObject player = Instantiate(characterPrefab, playerSpawns[spawnIndex].transform.position, Quaternion.identity);
+                
+                player.GetComponent<EntityHealth>().OnDeath += OnPlayerDeath;
+                foreach (MonoBehaviour component in playerConfigurationGameObject.GetComponents<MonoBehaviour>())
+                {
+                    Debug.Log(component.GetType().FullName);
+                }
+                Debug.Log(playerConfigurationGameObject.GetComponent<PlayerInputHandler>());
+                playerConfigurationGameObject.GetComponent<PlayerInputHandler>().InitializePlayer(playerConfiguration, player);
+                
+                _instantiatedPlayer.Add(player);
             }
             
             _alivePlayerCount = _instantiatedPlayer.Count;
@@ -63,24 +81,24 @@ namespace Game
             
             if (ShouldEndTheGame())
             {
-                _gameManager.EndTheGame();
+                gameManager.EndTheGame();
             }
         }
         
         private bool ShouldEndTheGame()
         {
-            if (_alivePlayerCount > 0) return false;
+            if (_alivePlayerCount > 1) return false;
             return true;
         }
         
         private void OnEnable()
         {
-            _gameManager.GameStateChanged += OnGameStateChanged;
+            gameManager.GameStateChanged += OnGameStateChanged;
         }
 
         private void OnDisable()
         {
-            _gameManager.GameStateChanged -= OnGameStateChanged;
+            gameManager.GameStateChanged -= OnGameStateChanged;
         }
 
         private void OnGameStateChanged(GameState state)
@@ -99,8 +117,8 @@ namespace Game
         private void OnTerrainGenerated()
         {
             GeneratePlayers();
-            _gameManager.SetGameState(GameState.Ready);
-            _gameManager.SetGameState(GameState.Playing);
+            gameManager.SetGameState(GameState.Ready);
+            gameManager.SetGameState(GameState.Playing);
         }
 
         private void OnGameEnded()
@@ -111,12 +129,12 @@ namespace Game
         private IEnumerator Restart()
         {
             yield return new WaitForSeconds(3);
-            _gameManager.ReloadGame();
+            gameManager.ReloadGame();
         }
         
         private void OnValidate()
         {
-            if (_gameManager == null) _gameManager = GetComponent<GameManager>();
+            if (gameManager == null) gameManager = GetComponent<GameManager>();
         }
     }
 }

@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bonus
+  - Explosion
+  - Bomb
+  - Destructible
+  - PlayerConfiguration
+  - Manager
   layers:
   - Default
   - TransparentFX
@@ -12,10 +18,10 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - 
-  - 
-  - 
+  - Bomb
+  - Destructible
+  - Player
+  - Bonus
   - 
   - 
   - 

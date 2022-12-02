@@ -26,21 +26,23 @@ namespace Player
             _remainingBombs = bombAmount;
         }
 
-        private void Update()
+        public void TryPlaceBomb()
         {
-            if (!_gameInputController.Player.PlaceBomb.triggered) return;
             if (_remainingBombs <= 0) return;
 
             Vector3 playerTilePosition = TerrainUtils.GetTerrainPosition(transform.position);
-            
-            if (PlayerCanPlaceBombAt(playerTilePosition)) return;
 
+            bool canBePlaced = PlayerCanPlaceBombAt(playerTilePosition);
+            Debug.Log("can be placed: " + canBePlaced);
+            if (!canBePlaced) return;
+            
             PlaceBombAt(playerTilePosition);
         }
         
         private bool PlayerCanPlaceBombAt(Vector3 tilePosition)
         {
-            return Physics.CheckBox(tilePosition, Vector3.one / 2, Quaternion.identity, bombLayerMask);
+            
+            return !Physics.CheckBox(tilePosition, Vector3.one / 2, Quaternion.identity, bombLayerMask);
         }
 
         private void PlaceBombAt(Vector3 tilePosition)
@@ -93,28 +95,34 @@ namespace Player
             bombPower = Mathf.Clamp(bombPower, minBombPower, maxBombPower);
         }
 
-        private void OnGUI()
+        // private void OnGUI()
+        // {
+        //     if (GUI.Button(new Rect(new Vector2(10, 10), new Vector2(120, 25)), "Add Bomb Power"))
+        //     {
+        //         AddBombPower();
+        //     }
+        //     
+        //     if (GUI.Button(new Rect(new Vector2(140, 10), new Vector2(150, 25)), "Set Max Bomb Power"))
+        //     {
+        //         bombPower = maxBombPower;
+        //     }
+        //     
+        //     if (GUI.Button(new Rect(new Vector2(10, 45), new Vector2(120, 25)), "Add Bomb Amount"))
+        //     {
+        //         AddBombAmount();
+        //     }
+        //     
+        //     if (GUI.Button(new Rect(new Vector2(140, 45), new Vector2(150, 25)), "Set Max Bomb Amount"))
+        //     {
+        //         bombAmount = maxBombPower;
+        //         _remainingBombs = bombAmount;
+        //     }
+        // }
+        
+        private void OnDrawGizmos()
         {
-            if (GUI.Button(new Rect(new Vector2(10, 10), new Vector2(120, 25)), "Add Bomb Power"))
-            {
-                AddBombPower();
-            }
-            
-            if (GUI.Button(new Rect(new Vector2(140, 10), new Vector2(150, 25)), "Set Max Bomb Power"))
-            {
-                bombPower = maxBombPower;
-            }
-            
-            if (GUI.Button(new Rect(new Vector2(10, 45), new Vector2(120, 25)), "Add Bomb Amount"))
-            {
-                AddBombAmount();
-            }
-            
-            if (GUI.Button(new Rect(new Vector2(140, 45), new Vector2(150, 25)), "Set Max Bomb Amount"))
-            {
-                bombAmount = maxBombPower;
-                _remainingBombs = bombAmount;
-            }
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(TerrainUtils.GetTerrainPosition(transform.position), Vector3.one / 2);
         }
     }
 }

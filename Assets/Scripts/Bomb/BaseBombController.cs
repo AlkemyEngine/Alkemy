@@ -13,6 +13,8 @@ namespace Bomb
 
         protected PlayerBombController _playerBombController;
         protected int _bombPower;
+        
+        protected bool _hasAlreadyExploded = false;
 
         private void Start()
         {
@@ -42,8 +44,14 @@ namespace Bomb
             StopAllCoroutines();
         }
 
+        public virtual bool HasAlreadyExploded()
+        {
+            return _hasAlreadyExploded;
+        }
+        
         public virtual void StartExplode()
         {
+            _hasAlreadyExploded = true;
             Vector3 bombPosition = TerrainUtils.GetTerrainPosition(transform.position);
             
             Explosion baseExplosion = Instantiate(explosionPrefabs, bombPosition, Quaternion.identity);
@@ -54,7 +62,11 @@ namespace Bomb
             Explode(bombPosition, Vector3.forward, _bombPower);
             Explode(bombPosition, Vector3.left, _bombPower);
             
-            _playerBombController.OnBombExplode();
+            if (_playerBombController != null)
+            {
+                _playerBombController.OnBombExplode();
+            }
+            
             Destroy(gameObject);
         }
 
@@ -68,7 +80,7 @@ namespace Bomb
 
             foreach (Collider c in colliders)
             {
-                if (c.CompareTag("Explosion") || c.CompareTag("Terrain"))
+                if (c.CompareTag("Terrain"))
                 {
                     return;
                 }
@@ -76,6 +88,7 @@ namespace Bomb
                 if (c.CompareTag("Bomb"))
                 {
                     BaseBombController bombController = c.GetComponent<BaseBombController>();
+                    if (bombController.HasAlreadyExploded()) return;
                     bombController.CancelTimer();
                     bombController.StartExplode();
                     return;
